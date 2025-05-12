@@ -7,8 +7,9 @@ spring:
     hikari:
       maximum-pool-size: 5
   jpa:
+    database-platform: ${SPRING_JPA_DATABASE_PLATFORM}
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+      ddl-auto: update
   devtools:
     restart:
       enabled: true
