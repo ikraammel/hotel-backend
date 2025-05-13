@@ -1,21 +1,12 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://${PROD_DB_HOST}:${PROD_DB_PORT}/${PROD_DB_NAME}
-    username: ${PROD_DB_USERNAME}
-    password: ${PROD_DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-    hikari:
-      maximum-pool-size: 5
-  jpa:
-    database-platform: ${SPRING_JPA_DATABASE_PLATFORM}
-    hibernate:
-      ddl-auto: update
-  devtools:
-    restart:
-      enabled: true
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  profiles:
+    active: dev
+
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+
+  devtools:
+    restart:
+      enabled: true
