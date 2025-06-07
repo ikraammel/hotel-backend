@@ -9,9 +9,9 @@ import com.ikram.hotel.response.RoomResponse;
 import com.ikram.hotel.service.BookingRoomService;
 import com.ikram.hotel.service.IRoomService;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,8 +21,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,7 +28,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/rooms")
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 public class RoomController {
 
     private final IRoomService roomService;
@@ -51,6 +49,7 @@ public class RoomController {
         return roomService.getAllRoomTypes();
     }
 
+    @Transactional(readOnly = true)
     @GetMapping("/all")
     public ResponseEntity<List<RoomResponse>> getAllRooms() {
         List<Room> rooms = roomService.getAllRooms();
@@ -82,11 +81,16 @@ public class RoomController {
 
         if (photoBlob != null) {
             try (InputStream inputStream = photoBlob.getBinaryStream()) {
-                photoBytes = inputStream.readAllBytes();
-            } catch (IOException e) {
-                throw new PhotoRetrievalException("Error processing photo");
+                if (inputStream != null) {
+                    photoBytes = inputStream.readAllBytes();
+                }
+            } catch (IOException | SQLException e) {
+                System.err.println("Erreur photo sur room ID: " + room.getId());
+                e.printStackTrace(); // pour debug
+                photoBytes = null;   // ignorer la photo cassée
             }
         }
+
 
         return new RoomResponse(
                 room.getId(),
@@ -101,7 +105,7 @@ public class RoomController {
         return bookingRoomService.getAllBookingsByRoomId(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{roomId}")
     public List<BookedRoom> getAllRoomPhotosById(@PathVariable Long roomId){
         return bookingRoomService.getAllBookingsByRoomId(roomId);
     }

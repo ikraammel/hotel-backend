@@ -4,9 +4,9 @@ import com.ikram.hotel.exception.InternalServerException;
 import com.ikram.hotel.exception.ResourceNotFoundException;
 import com.ikram.hotel.model.Room;
 import com.ikram.hotel.repository.RoomRepository;
-import com.ikram.hotel.response.RoomResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -39,6 +39,7 @@ public class RoomService implements IRoomService{
         return roomRepository.findDistinctRoomTypes();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Room> getAllRooms() {
         return roomRepository.findAll();

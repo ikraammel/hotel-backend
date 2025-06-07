@@ -1,12 +1,13 @@
 spring:
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:dev}
+  datasource:
+    url: jdbc:postgresql://localhost:5432/booking_hotel_db
+    username: postgres
+    password: ikram
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
 
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
-
-  devtools:
-    restart:
-      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
