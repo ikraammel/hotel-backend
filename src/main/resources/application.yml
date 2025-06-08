@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}  # Défaut = dev
   datasource:
     url: jdbc:postgresql://localhost:5432/booking_hotel_db
     username: postgres
