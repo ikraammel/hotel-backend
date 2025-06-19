@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class BookingDto {
-    private String guestName;
+    private String guestFullName;
     private String guestEmail;
     private String checkInDate;    // YYYY-MM-DD
     private String checkOutDate;

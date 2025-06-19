@@ -28,14 +28,33 @@ public class BookingController {
 
     @GetMapping("/all-bookings")
     public ResponseEntity<List<BookingResponse>> getAllBookings(){
-         List<BookedRoom> bookings = bookingRoomService.getAllBookings();
-         List<BookingResponse> bookingResponses = new ArrayList<>();
-         for(BookedRoom booking : bookings){
-             BookingResponse bookingResponse = getBookingResponse(booking);
-             bookingResponses.add(bookingResponse);
-         }
-         return ResponseEntity.ok(bookingResponses);
+        List<BookedRoom> bookings = bookingRoomService.getAllBookings();
+        List<BookingResponse> bookingResponses = new ArrayList<>();
+        for(BookedRoom booking : bookings){
+            // Forcer le chargement de la room complète
+            Room room = roomService.getRoomById(booking.getRoom().getId()).orElse(null);
+            // Puis utiliser room.getId() etc dans BookingResponse
+            BookingResponse bookingResponse = null;
+            if (room != null) {
+                bookingResponse = new BookingResponse(
+                        booking.getBookingId(),
+                        booking.getCheckInDate(),
+                        booking.getCheckOutDate(),
+                        booking.getGuestFullName(),
+                        booking.getGuestEmail(),
+                        booking.getNumOfAdults(),
+                        booking.getNumOfChildren(),
+                        booking.getTotalNumOfGuest(),
+                        booking.getBookingConfirmationCode(),
+                        room.getId(),
+                        room.getRoomType()
+                );
+            }
+            bookingResponses.add(bookingResponse);
+        }
+        return ResponseEntity.ok(bookingResponses);
     }
+
 
     @GetMapping("/confirmation/{confirmationCode}")
     public ResponseEntity<?> getBookingByConfirmationCode(@PathVariable String confirmationCode){
@@ -70,7 +89,7 @@ public class BookingController {
                                                     room.getRoomType(),
                                                     room.getRoomPrice()
                                                     );
-        return new BookingResponse(booking.getBooking_id(),
+        return new BookingResponse(booking.getBookingId(),
                                    booking.getCheckInDate(),
                                    booking.getCheckOutDate(),
                                    booking.getGuestFullName(),
@@ -78,7 +97,7 @@ public class BookingController {
                                    booking.getNumOfAdults(),
                                    booking.getNumOfChildren(),
                                    booking.getTotalNumOfGuest(),
-                                   booking.getBookingConfirmationCode(),room);
+                                   booking.getBookingConfirmationCode(), room.getId(),room.getRoomType());
     }
 }
 

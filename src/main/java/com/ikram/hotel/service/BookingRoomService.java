@@ -49,7 +49,7 @@ public class BookingRoomService implements IBookingRoomService {
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
 
         BookedRoom booking = new BookedRoom();
-        booking.setGuestFullName(bookingDto.getGuestName());
+        booking.setGuestFullName(bookingDto.getGuestFullName());
         booking.setGuestEmail(bookingDto.getGuestEmail());
         booking.setCheckInDate(LocalDate.parse(bookingDto.getCheckInDate()));
         booking.setCheckOutDate(LocalDate.parse(bookingDto.getCheckOutDate()));
@@ -101,6 +101,7 @@ public class BookingRoomService implements IBookingRoomService {
 
     @Override
     public BookedRoom findByBookingConfirmationCode(String confirmationCode) {
-        return bookingRepository.findByBookingConfirmationCode(confirmationCode);
+        return bookingRepository.findByBookingConfirmationCode(confirmationCode)
+                .orElseThrow(() -> new ResourceNotFoundException("No booking found with booking code :"+confirmationCode));
     }
 }

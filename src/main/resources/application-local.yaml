@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/booking_hotel_db
+    username: postgres
+    password: ikram
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
+      auto-commit: false
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+hotel:
+  app:
+    jwtSecret: dev-secret-123456
+    jwtExpirationMs: 3600000
