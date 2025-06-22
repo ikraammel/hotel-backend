@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://ikramshoteldb2025.postgres.database.azure.com:5432/hoteldb
-    username: postgres
+    url: jdbc:postgresql://ikramshoteldb2025.postgres.database.azure.com:5432/hoteldb?sslmode=require
+    username: postgres@ikramshoteldb2025
     password: Febrex123
     driver-class-name: org.postgresql.Driver
     hikari:
