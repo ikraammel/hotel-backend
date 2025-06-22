@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE:prod}  # prod par défaut
+    active: prod  # prod par défaut
   logging:
     level:
       org.springframework: DEBUG
