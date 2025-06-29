@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://ikramshoteldb2025.postgres.database.azure.com:5432/hoteldb?sslmode=require
-    username: postgres
-    password: Febrex123
+    username: postgres@ikramshoteldb2025  # Format Azure obligatoire
+    password: ${DB_PASSWORD}  # À définir dans Azure App Service
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 30000
@@ -10,8 +10,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: validate
+    show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
