@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: jdbc:postgresql://ikramshoteldb2025.postgres.database.azure.com:5432/hoteldb?sslmode=require
-    username: postgres@ikramshoteldb2025
+    username: postgres
     password: Febrex123
     driver-class-name: org.postgresql.Driver
     hikari:
@@ -17,5 +17,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 hotel:
   app:
-    jwtSecret: dev-secret-123456
+    jwtSecret: N+MqAD3gPyWpd4ReIwb5XZkVGuqrpgd1+FQUMNTFrrk=
     jwtExpirationMs: 3600000

@@ -15,5 +15,5 @@ spring:
 
 hotel:
   app:
-    jwtSecret: dev-secret-123456
+    jwtSecret: N+MqAD3gPyWpd4ReIwb5XZkVGuqrpgd1+FQUMNTFrrk=
     jwtExpirationMs: 3600000

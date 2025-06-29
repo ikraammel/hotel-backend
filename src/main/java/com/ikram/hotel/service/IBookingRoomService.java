@@ -12,4 +12,7 @@ public interface IBookingRoomService {
     public void cancelBooking(Long bookingId);
     public String saveBooking(Long roomId, BookingDto bookingDto);
     public BookedRoom findByBookingConfirmationCode(String confirmationCode);
+    public List<BookedRoom> getBookingsByGuestEmail(String email);
+
+    BookedRoom getBookingById(Long bookingId);
 }

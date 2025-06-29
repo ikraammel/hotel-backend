@@ -104,4 +104,16 @@ public class BookingRoomService implements IBookingRoomService {
         return bookingRepository.findByBookingConfirmationCode(confirmationCode)
                 .orElseThrow(() -> new ResourceNotFoundException("No booking found with booking code :"+confirmationCode));
     }
+
+    @Override
+    public List<BookedRoom> getBookingsByGuestEmail(String email) {
+        return bookingRepository.findByGuestEmail(email);
+    }
+
+    @Override
+    public BookedRoom getBookingById(Long bookingId) {
+        return bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + bookingId));
+    }
+
 }
