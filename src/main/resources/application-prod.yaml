@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://dpg-d1oe3n3uibrs73clib30-a:5432/hotel_db_pfuc
+    username: hotel_db_pfuc_user
+    password: PZtCXKljb3uImCk7SJfXvQ7hfmzmF4WR
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 30000
