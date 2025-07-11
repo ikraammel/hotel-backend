@@ -23,21 +23,35 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private HotelUserDetailsService userDetailsService;
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try{
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String path = request.getServletPath();
+
+        // ✅ Ignorer les endpoints publics
+        if (path.equals("/auth/register-user") || path.equals("/auth/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+
+        try {
             String jwt = parseJwt(request);
-            if(jwt != null && jwtUtils.validateToken(jwt)){
+            if (jwt != null && jwtUtils.validateToken(jwt)) {
                 String email = jwtUtils.getUsernameFromToken(jwt);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                var authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                var authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
-        }catch (Exception e){
-            logger.error("Cannot set user authentication : {}",e.getMessage());
+        } catch (Exception e) {
+            logger.error("Cannot set user authentication : {}", e.getMessage());
         }
-        filterChain.doFilter(request,response);
+
+        filterChain.doFilter(request, response);
     }
 
     private String parseJwt(HttpServletRequest request){
