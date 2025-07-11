@@ -2,6 +2,7 @@ package com.ikram.hotel.controller;
 
 import com.ikram.hotel.model.User;
 import com.ikram.hotel.service.IUserService;
+import com.ikram.hotel.utils.Roles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.ikram.hotel.utils.Roles.ROLE_USER;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -18,7 +21,7 @@ public class UserController {
     private final IUserService userService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<User>> getUsers(){
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.FOUND);
     }
